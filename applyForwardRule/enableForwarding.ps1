@@ -5,9 +5,9 @@ Add-PSSnapin Microsoft.Exchange.Management.PowerShell.Snapin;
 $date = Get-Date
 $dateStr = $date.toString("yyyyMMdd_hhmmss");
 
-$pathNetStorage = "W:\";
+$pathNetStorage = "W:\result_enableForwarding__" + $dateStr + ".txt";
 $path = "D:\batchScripts\exchangeBatchScripts\applyForwardRule";
-$result = $path + "\result\result__" + $dateStr + ".txt";
+$result = $path + "\result\result_enableForwarding__" + $dateStr + ".txt";
 
 $csv_file = $path + "\employee_list.csv";
 $employees = (Get-Content $csv_file);
@@ -23,3 +23,7 @@ for ($i=1; $i -lt $employees.length; $i++) {
 
   Get-Mailbox -Identity $id | Format-List ForwardingSMTPAddress,DeliverToMailboxandForward >> $result;
 }
+
+Copy-Item -Path $result -Destination $pathNetStorage
+
+Write-Output "DONE"
